@@ -29,16 +29,26 @@ public:
     void        stopGame() override;
 
 	void        updateAI() override;
-    bool        gameHasAI() override { return true; }
+    bool        gameHasAI() override { return _AIEnabled; }
     BitHolder &getHolderAt(const int x, const int y) override { return _grid[y][x]; }
 
     int negamax(std::string& state, int depth, int alpha, int beta, int playerColor);
+
+    void        toggleAI() { _AIEnabledSet = !_AIEnabledSet; };
+
+    
 private:
     Bit *       PieceForPlayer(const int playerNumber);
     Player*     ownerAt(int index ) const;
 
     Square      _grid[3][3];
 
+    const ImVec2 _boardPos = {100, 100};
+    const ImVec2 _squareOffsets = {100, 100};
+
     int _recursions;
+    bool _AIEnabledSet = false;
+    bool _AIEnabled = false;
+    
 };
 

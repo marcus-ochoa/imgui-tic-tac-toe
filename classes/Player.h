@@ -31,7 +31,7 @@ private:
 	Game			*_game;
 	std::string		_name;
 	int				_playerNumber;
-	bool			_aiPlayer;
 	std::map<std::string, std::string>		_extraValues;
+	bool			_aiPlayer;
 };
 

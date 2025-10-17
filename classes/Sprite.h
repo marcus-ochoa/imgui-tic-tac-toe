@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "../imgui/imgui.h"
+#include <cstdint> // Added line to allow use of intptr_t
 
 class Sprite : public Entity
 {
