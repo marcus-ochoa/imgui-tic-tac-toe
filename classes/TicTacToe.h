@@ -29,7 +29,10 @@ public:
     void        stopGame() override;
 
 	void        updateAI() override;
+
+    // now returns the AI enabled boolean which can be toggled by player
     bool        gameHasAI() override { return _AIEnabled; }
+
     BitHolder &getHolderAt(const int x, const int y) override { return _grid[y][x]; }
 
     int negamax(std::string& state, int depth, int alpha, int beta, int playerColor);

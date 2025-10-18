@@ -24,6 +24,16 @@
 // The rest of the routines are written as “comment-first” TODOs for you to complete.
 // -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+// Implementation
+// -----------------------------------------------------------------------------
+// For the most part, I followed the comments and TODOs closely
+// I also used some implementations from class (such as the kWinningTriples)
+// I added const class variables for the spacing of squares on the board for consistency
+// and a boolean for AI state which allows the AI to be toggled
+// From class I have a very broken minimax implementation which I plan to fix for next submission
+// For the time being it does play and make moves, although they are terrible moves
+
 const int AI_PLAYER   = 1;      // index of the AI player (O)
 const int HUMAN_PLAYER= -1;      // index of the human player (X)
 
@@ -88,12 +98,13 @@ bool TicTacToe::actionForEmptyHolder(BitHolder *holder)
 {
     // 1) Guard clause: if holder is nullptr, fail fast.
     //    (Beginner hint: always check pointers before using them.)
+    
     if (!holder) return false;
 
     // 2) Is it actually empty?
     //    Ask the holder for its current Bit using the bit() function.
     //    If there is already a Bit in this holder, return false.
-
+    
     if (holder->bit()) return false;
 
     // 3) Place the current player's piece on this holder:
@@ -101,11 +112,10 @@ bool TicTacToe::actionForEmptyHolder(BitHolder *holder)
     //    - Create a Bit via PieceForPlayer(currentPlayerIndex).
     //    - Position it at the holder's position (holder->getPosition()).
     //    - Assign it to the holder: holder->setBit(newBit);
-
+    
     Bit *bit = PieceForPlayer(getCurrentPlayer()->playerNumber());
     bit->setPosition(holder->getPosition());
     holder->setBit(bit);
-
 
     // 4) Return whether we actually placed a piece. true = acted, false = ignored.
 
@@ -286,7 +296,6 @@ void TicTacToe::setStateString(const std::string &s)
         Bit *piece = PieceForPlayer(playerNumber);
         piece->setPosition(holder.getPosition());
         holder.setBit(piece);
-        
     }
 }
 
@@ -383,7 +392,6 @@ int TicTacToe::negamax(std::string& state, int depth, int beta, int alpha, int p
             if (result > bestVal) {
                 bestVal = result;
             }
-
             state[i] = '0';
         }
     }
