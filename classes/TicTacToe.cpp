@@ -305,8 +305,6 @@ void TicTacToe::setStateString(const std::string &s)
 //
 void TicTacToe::updateAI() 
 {
-    // we will implement the AI in the next assignment!
-
     int bestMove = -1000;
     int bestSquare = -1;
 
@@ -321,6 +319,7 @@ void TicTacToe::updateAI()
             state[i] = '2';
 
             int result = -negamax(state, 0, -1000, +1000, HUMAN_PLAYER);
+
             if (result > bestMove) {
                 bestMove = result;
                 bestSquare = i;
@@ -355,7 +354,7 @@ int aiWinner(const std::string& state)
                                                 {0, 4, 8}, {2, 4, 6} };
 
     for (int i = 0; i < 8 ; i++) {
-        const int* triple = kWinningTriples[1];
+        const int* triple = kWinningTriples[i];
         char player = state[triple[0]];
         if (player != '0' && player == state[triple[1]] && player == state[triple[2]]) {
             // we don't care who won, the negamax function sets the right sign
@@ -366,7 +365,7 @@ int aiWinner(const std::string& state)
     return 0;
 }
 
-int TicTacToe::negamax(std::string& state, int depth, int beta, int alpha, int playerColor)
+int TicTacToe::negamax(std::string& state, int depth, int alpha, int beta, int playerColor)
 {
     _recursions++;
     int bestVal = -1000;
@@ -374,7 +373,7 @@ int TicTacToe::negamax(std::string& state, int depth, int beta, int alpha, int p
     int boardWinner = aiWinner(state);
 
     if (boardWinner) {
-        // returning the value to the recusion above, so negate it
+        // returning the value to the recursion above, so negate it
         // because it is the opposite of what we want
         return -boardWinner;
     }
@@ -387,12 +386,20 @@ int TicTacToe::negamax(std::string& state, int depth, int beta, int alpha, int p
     
     for (int i = 0; i < 9; i++) {
         if (state[i] == '0') {
-            state[i] = playerColor == HUMAN_PLAYER ? '2' : '1';
+            state[i] = playerColor == HUMAN_PLAYER ? '1' : '2';
             int result = -negamax(state, depth + 1, -beta, -alpha, -playerColor);
             if (result > bestVal) {
                 bestVal = result;
             }
             state[i] = '0';
+
+            // alpha-beta pruning implementation
+            if (bestVal > alpha) {
+                alpha = bestVal;
+            }
+            if (alpha >= beta) {
+                break;
+            }
         }
     }
 
